@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
-import User from '../model/User';
+import User from '../../model/User';
 import { v4 } from 'uuid';
 
 interface Request {

@@ -16,8 +16,23 @@ userRouter.post('/', async (request, response) => {
             password
         });
 
-
         return response.json(user);
+    } catch (err) {
+        return response.status(400).json({ err: err.message })
+    }
+});
+
+userRouter.put('/', async (request, response) => {
+    try {
+        const { id, name, password } = request.body;
+
+        const updateUser = await userController.update({
+            id,
+            name,
+            password
+        });
+
+        return response.json({ message: `Usuário ${updateUser.name} foi atualizado` });
     } catch (err) {
         return response.status(400).json({ err: err.message })
     }
