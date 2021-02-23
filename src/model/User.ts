@@ -1,5 +1,6 @@
-import { Column, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
+@Entity('users')
 class User {
     @PrimaryColumn('uuid')
     id: string;
@@ -9,6 +10,9 @@ class User {
     
     @Column()
     email: string;
+
+    @Column()
+    password: string;
 }
 
 export default User;

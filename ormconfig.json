@@ -9,7 +9,7 @@
         "./src/model/*.ts"
     ],
     "migrations": [
-        "./src/database/migration/*ts"
+        "./src/database/migrations/*ts"
     ],
     "cli": {
         "migrationsDir": "./src/database/migrations"
