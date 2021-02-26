@@ -1,26 +1,26 @@
-import SignInService from '../services/signIn/SignInSerivce';
 import User from '../model/User';
-
+import AuthenticateUserService from '../services/authenticate/AuthenticateUserService';
 interface Auth {
     token: string,
     user: User
 }
 
-interface Login {
-    email: string,
-    password: string,
+interface AuthHeader {
+    authHeader: string
 }
 
 class AuthenticateController {
-    public async signIn({ email, password }: Login): Promise<Auth> {
-        const signInservice = new SignInService();
+    public async authenticate({ authHeader  }: AuthHeader): Promise<Auth> {
+        if (!authHeader) {
+            throw new Error('Usuário sem autenticação');
+        }
+        const authService = new AuthenticateUserService();
 
-        const signIn = signInservice.execute({
-            email,
-            password
-        })
+        const [, headerToken] = authHeader.split(' ');
 
-        return signIn;
+        const auth = authService.execute({ headerToken })
+
+        return auth;
     }
 }
 
