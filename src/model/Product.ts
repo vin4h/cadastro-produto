@@ -1,8 +1,8 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import User from './User';
 
 @Entity('products')
-class Product{
+class Product {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -12,7 +12,11 @@ class Product{
     @Column()
     amount: number;
 
+    @Column()
+    user_id: string;
+
     @ManyToOne(type => User, user => user.id)
+    @JoinColumn({ name: 'user_id' })
     user: User;
 
     @CreateDateColumn()
