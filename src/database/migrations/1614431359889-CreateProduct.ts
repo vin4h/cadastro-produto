@@ -34,7 +34,7 @@ export class CreateProduct1614431359889 implements MigrationInterface {
             ]
         }));
 
-        await queryRunner.createForeignKey('product', new TableForeignKey({
+        await queryRunner.createForeignKey('products', new TableForeignKey({
             name: 'productUser',
             columnNames: ['user_id'],
             referencedColumnNames: ['id'],
