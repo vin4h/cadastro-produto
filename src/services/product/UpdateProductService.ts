@@ -1,17 +1,17 @@
 import { getRepository } from 'typeorm';
-import { v4 } from 'uuid';
 import Product from '../../model/Product';
 import User from '../../model/User';
 
 interface Request {
+    id: string;
     name: string;
     amount: number;
     value: number;
     user_id: string;
 }
 
-class CreateProductService {
-    public async execute({ name, amount, user_id, value }: Request): Promise<Product> {
+class UpdateProductService {
+    public async execute({ id, name, amount, user_id, value }: Request): Promise<Product> {
         const userRepository = getRepository(User);
 
         const productRepository = getRepository(Product);
@@ -25,10 +25,10 @@ class CreateProductService {
             throw Error('Usuário informado não existe');
         }
 
-        const findProduct: Product[] = findUser.products.filter(product => product.name === name);
+        const findProduct: Product[] = findUser.products.filter(product => product.id === id);
 
-        if (findProduct) {
-            throw Error('Produto já existe');
+        if (!findProduct) {
+            throw Error('Produto não existe');
         }
 
         const product = productRepository.create({
@@ -45,4 +45,4 @@ class CreateProductService {
     }
 }
 
-export default CreateProductService;
+export default UpdateProductService;
