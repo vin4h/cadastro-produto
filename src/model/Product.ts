@@ -13,11 +13,15 @@ class Product {
     amount: number;
 
     @Column()
+    value: number;
+
+    @Column()
     user_id: string;
 
-    @ManyToOne(type => User, user => user.id)
+    @ManyToOne(() => User, user => user.products)
     @JoinColumn({ name: 'user_id' })
-    user: User;
+    user: User
+
 
     @CreateDateColumn()
     created_at: Date;
@@ -25,3 +29,5 @@ class Product {
     @UpdateDateColumn()
     updated_at: Date;
 }
+
+export default Product;

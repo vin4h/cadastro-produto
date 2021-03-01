@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
+import Product from './Product';
 
 @Entity('users')
 class User {
@@ -13,6 +14,10 @@ class User {
 
     @Column()
     password: string;
+
+    @OneToMany(() => Product, product => product.user)
+    @JoinColumn({ name: 'user_id' })
+    products: Product[];
 }
 
 export default User;
