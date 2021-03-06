@@ -1,4 +1,4 @@
-import SignInService from '../services/signIn/SignInSerivce';
+import SignInService from '../services/signIn/SignInService';
 import User from '../model/User';
 
 interface Auth {
