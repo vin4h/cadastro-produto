@@ -20,7 +20,7 @@ productRouter.post('/', async (request, response) => {
 
         response.json(product);
     } catch (error) {
-        response.status(400).json({ error: error.message })
+        response.status(400).json({ error: error.message });
     }
 });
 
@@ -34,8 +34,28 @@ productRouter.get('/', async (request, response) => {
 
         return response.json(products);
     } catch (error) {
-        response.status(400).json({ error: error.message })
+        response.status(400).json({ error: error.message });
     }
 });
+
+productRouter.put('/', async (request, response) => {
+    try {
+        const authHeader = request.headers.authorization;
+
+        const { id, name, value, amount } = request.body;
+
+        const updatedProduct = await productController.update({
+            authHeader,
+            id,
+            name,
+            value,
+            amount
+        });
+
+        return response.json(updatedProduct);
+    } catch (error) {
+        response.status(400).json({ error: error.message });
+    }
+})
 
 export default productRouter;

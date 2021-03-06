@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import Product from '../../model/Product';
 import User from '../../model/User';
+import { v4 } from 'uuid';
 
 interface Request {
     id: string;
@@ -11,14 +12,14 @@ interface Request {
 }
 
 class UpdateProductService {
-    public async execute({ id, name, amount, user_id, value }: Request): Promise<Product> {
+    public async execute({ id, name, amount, value, user_id }: Request): Promise<Product> {
         const userRepository = getRepository(User);
 
         const productRepository = getRepository(Product);
 
         const findUser = await userRepository.findOne({
             relations: ['products'],
-            where: { user_id }
+            where: { id: user_id }
         });
 
         if (!findUser) {
@@ -31,12 +32,14 @@ class UpdateProductService {
             throw Error('Produto não existe');
         }
 
+
         const product = productRepository.create({
             id: v4(),
             name,
             amount,
             value,
-            user_id
+            user_id,
+            user: findUser
         });
 
         await productRepository.save(product);

@@ -2,6 +2,7 @@ import Product from '../model/Product';
 import User from '../model/User';
 import CreateProductService from '../services/product/CreateProductService';
 import ListProductService from '../services/product/ListProductService';
+import UpdateProductService from '../services/product/UpdateProductService';
 import AuthController from './AuthenticateController';
 
 interface Request {
@@ -50,6 +51,26 @@ class ProductController {
         });
 
         return products;
+    }
+
+    public async update({ authHeader, id, name, value, amount }: Partial<Request>): Promise<ProductFormated> {
+        const updateService = new UpdateProductService();
+
+        const dataAuth = await this.getUserIdFromAuthentication({
+            authHeader
+        });
+        
+        const updatedProduct = await updateService.execute({
+            id,
+            name,
+            amount,
+            value,
+            user_id: dataAuth.id
+        });
+
+        delete updatedProduct.user.products;
+        
+        return this.formatedProduct(updatedProduct);
     }
 
     private formatedProduct({ id, name, amount, value, user_id, user }: Product): ProductFormated {
