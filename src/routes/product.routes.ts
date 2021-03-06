@@ -24,4 +24,18 @@ productRouter.post('/', async (request, response) => {
     }
 });
 
+productRouter.get('/', async (request, response) => {
+    try {
+        const authHeader = request.headers.authorization;
+
+        const products = await productController.list({
+            authHeader
+        });
+
+        return response.json(products);
+    } catch (error) {
+        response.status(400).json({ error: error.message })
+    }
+});
+
 export default productRouter;

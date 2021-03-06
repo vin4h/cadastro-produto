@@ -17,18 +17,11 @@ class CreateProductService {
         const productRepository = getRepository(Product);
 
         const findUser = await userRepository.findOne({
-            relations: ['products'],
-            where: { user_id }
+            where: { id: user_id }
         });
 
         if (!findUser) {
             throw Error('Usuário informado não existe');
-        }
-
-        const findProduct: Product[] = findUser.products.filter(product => product.name === name);
-
-        if (findProduct) {
-            throw Error('Produto já existe');
         }
 
         const product = productRepository.create({
@@ -36,9 +29,10 @@ class CreateProductService {
             name,
             amount,
             value,
-            user_id
+            user_id,
+            user: findUser
         });
-
+        
         await productRepository.save(product);
 
         return product;
