@@ -1,6 +1,7 @@
 import Product from '../model/Product';
 import User from '../model/User';
 import CreateProductService from '../services/product/CreateProductService';
+import FindProductService from '../services/product/FindProductService';
 import ListProductService from '../services/product/ListProductService';
 import UpdateProductService from '../services/product/UpdateProductService';
 import AuthController from './AuthenticateController';
@@ -59,7 +60,7 @@ class ProductController {
         const dataAuth = await this.getUserIdFromAuthentication({
             authHeader
         });
-        
+
         const updatedProduct = await updateService.execute({
             id,
             name,
@@ -69,8 +70,23 @@ class ProductController {
         });
 
         delete updatedProduct.user.products;
-        
+
         return this.formatedProduct(updatedProduct);
+    }
+
+    public async find({ id, authHeader }: Partial<Request>): Promise<ProductFormated> {
+        const findService = new FindProductService();
+
+        const dataAuth = await this.getUserIdFromAuthentication({
+            authHeader
+        });
+
+        const founderProduct = await findService.execute({
+            id,
+            user_id: dataAuth.id
+        });
+
+        return this.formatedProduct(founderProduct);
     }
 
     private formatedProduct({ id, name, amount, value, user_id, user }: Product): ProductFormated {

@@ -56,6 +56,23 @@ productRouter.put('/', async (request, response) => {
     } catch (error) {
         response.status(400).json({ error: error.message });
     }
-})
+});
+
+productRouter.post('/find', async (request, response) => {
+    try {
+        const authHeader = request.headers.authorization;
+
+        const { id } = request.body;
+
+        const finderProduct = await productController.find({
+            id,
+            authHeader
+        });
+
+        return response.json(finderProduct);
+    } catch (error) {
+        response.status(400).json({ error: error.message });
+    }
+});
 
 export default productRouter;

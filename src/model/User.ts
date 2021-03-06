@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import Product from './Product';
 
 @Entity('users')
@@ -16,7 +16,6 @@ class User {
     password: string;
 
     @OneToMany(() => Product, product => product.user)
-    @JoinColumn({ name: 'user_id' })
     products: Product[];
 }
 
