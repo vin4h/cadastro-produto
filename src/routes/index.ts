@@ -7,9 +7,9 @@ import ProductRouter from './product.routes';
 
 const routes = Router();
 
-routes.use('/api/v1/user', UserRouter);
+routes.use('/api/v1/users', UserRouter);
 routes.use('/api/v1/signin', SignInRouter);
 routes.use('/api/v1/auth', AuthRouter);
-routes.use('/api/v1/product', ProductRouter);
+routes.use('/api/v1/products', ProductRouter);
 
 export default routes;
